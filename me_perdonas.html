@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi niña preshiosha, ¿Me perdonas?</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800&family=Poppins:wght@500;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'sans': ['Nunito', 'sans-serif'],
+                        'heading': ['Poppins', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            100: '#ffe4e6', // Soft pink
+                            200: '#fecdd3',
+                            500: '#f43f5e', // Rose
+                            600: '#e11d48',
+                        }
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'float-delayed': 'float 6s ease-in-out 3s infinite',
+                        'bounce-slow': 'bounce-slow 3s infinite',
+                        'pulse-glow': 'pulse-glow 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'fade-in-up': 'fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+                        'pop-in': 'popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        },
+                        'bounce-slow': {
+                            '0%, 100%': { transform: 'translateY(-5%)', animationTimingFunction: 'cubic-bezier(0.8, 0, 1, 1)' },
+                            '50%': { transform: 'translateY(0)', animationTimingFunction: 'cubic-bezier(0, 0, 0.2, 1)' },
+                        },
+                        'pulse-glow': {
+                            '0%, 100%': { opacity: '1', transform: 'scale(1)', boxShadow: '0 0 0 0 rgba(244, 63, 94, 0.4)' },
+                            '50%': { opacity: '.9', transform: 'scale(1.05)', boxShadow: '0 0 20px 10px rgba(244, 63, 94, 0.2)' },
+                        },
+                        fadeInUp: {
+                            '0%': { opacity: '0', transform: 'translateY(40px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        },
+                        popIn: {
+                            '0%': { opacity: '0', transform: 'scale(0.8)' },
+                            '100%': { opacity: '1', transform: 'scale(1)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom floating hearts background animation */
+        .heart-particle {
+            position: absolute;
+            bottom: -100px;
+            pointer-events: none;
+            opacity: 0;
+            animation: flyUp linear infinite;
+        }
+        @keyframes flyUp {
+            0% { transform: translateY(0) scale(0.5) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.6; }
+            90% { opacity: 0.6; }
+            100% { transform: translateY(-100vh) scale(1.5) rotate(360deg); opacity: 0; }
+        }
+        /* Hide scrollbar for clean look */
+        body {
+            overflow: hidden;
+            -webkit-tap-highlight-color: transparent;
+        }
+        /* Modal Transitions */
+        .modal-active {
+            opacity: 1 !important;
+            pointer-events: auto !important;
+        }
+        .modal-content-active {
+            transform: scale(1) translateY(0) !important;
+            opacity: 1 !important;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-pink-100 via-rose-50 to-purple-100 min-h-screen flex items-center justify-center relative font-sans text-gray-800">
+
+    <!-- Background Particle Container -->
+    <div id="particles-container" class="absolute inset-0 overflow-hidden pointer-events-none z-0"></div>
+
+    <!-- Main Card -->
+    <main class="relative z-10 w-full max-w-lg mx-4 opacity-0 animate-fade-in-up">
+        <div class="bg-white/70 backdrop-blur-xl border border-white/50 rounded-[2.5rem] shadow-2xl p-8 sm:p-12 text-center relative overflow-hidden">
+            
+            <!-- Decorative blur blobs -->
+            <div class="absolute top-[-50px] left-[-50px] w-32 h-32 bg-pink-300 rounded-full mix-blend-multiply filter blur-2xl opacity-50 animate-float"></div>
+            <div class="absolute bottom-[-50px] right-[-50px] w-32 h-32 bg-purple-300 rounded-full mix-blend-multiply filter blur-2xl opacity-50 animate-float-delayed"></div>
+
+            <!-- Kirby SVG Graphic -->
+            <div class="mb-6 relative flex justify-center h-48">
+                <!-- Shadow -->
+                <div class="absolute bottom-0 w-32 h-6 bg-black/10 rounded-[100%] blur-sm mx-auto"></div>
+                
+                <!-- Kirby SVG (Animated bouncing) -->
+                <svg viewBox="0 0 200 200" class="w-48 h-48 absolute bottom-2 animate-bounce-slow drop-shadow-xl" aria-label="Kirby pidiendo perdón">
+                    <!-- Left Foot -->
+                    <path d="M 50 160 C 20 160, 20 190, 50 190 C 80 190, 80 160, 50 160 Z" fill="#e82c5a" />
+                    <!-- Right Foot -->
+                    <path d="M 150 160 C 120 160, 120 190, 150 190 C 180 190, 180 160, 150 160 Z" fill="#e82c5a" />
+                    
+                    <!-- Body -->
+                    <circle cx="100" cy="100" r="75" fill="#ffaec9" stroke="#f48fb1" stroke-width="2"/>
+                    
+                    <!-- Left Arm (Pleading position) -->
+                    <path d="M 35 110 C 10 110, 15 140, 40 135 Z" fill="#ffaec9" />
+                    <!-- Right Arm (Pleading position) -->
+                    <path d="M 165 110 C 190 110, 185 140, 160 135 Z" fill="#ffaec9" />
+
+                    <!-- Blushes -->
+                    <ellipse cx="55" cy="115" rx="12" ry="7" fill="#ff7da7" opacity="0.7" />
+                    <ellipse cx="145" cy="115" rx="12" ry="7" fill="#ff7da7" opacity="0.7" />
+
+                    <!-- Eyes (Sad/Pleading) -->
+                    <!-- Left Eye -->
+                    <ellipse cx="70" cy="85" rx="8" ry="18" fill="#111" />
+                    <!-- Left Eye Highlights -->
+                    <ellipse cx="70" cy="76" rx="4" ry="7" fill="#fff" />
+                    <circle cx="70" cy="94" r="2" fill="#fff" opacity="0.6"/>
+                    <!-- Right Eye -->
+                    <ellipse cx="130" cy="85" rx="8" ry="18" fill="#111" />
+                    <!-- Right Eye Highlights -->
+                    <ellipse cx="130" cy="76" rx="4" ry="7" fill="#fff" />
+                    <circle cx="130" cy="94" r="2" fill="#fff" opacity="0.6"/>
+
+                    <!-- Tears (Pleading eyes detail) -->
+                    <path d="M 62 90 C 58 100, 78 100, 74 90" fill="#8bd3e6" opacity="0.8" />
+                    <path d="M 122 90 C 118 100, 138 100, 134 90" fill="#8bd3e6" opacity="0.8" />
+
+                    <!-- Sad/Trembling Mouth -->
+                    <path d="M 90 112 Q 100 106 110 112" stroke="#111" stroke-width="3" fill="transparent" stroke-linecap="round" />
+                </svg>
+            </div>
+
+            <!-- Content -->
+            <h1 class="text-4xl sm:text-5xl font-heading font-bold text-gray-800 mb-4 tracking-tight">
+                Lia, <br/>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-500 to-purple-500">
+                    ¿Me perdonas?
+                </span>
+            </h1>
+            <p class="text-lg text-gray-600 mb-10 font-medium">
+                Por favor, di que sí amor, todo mi cariño es para ti. 🥺
+            </p>
+
+            <!-- Buttons -->
+            <div class="flex flex-col sm:flex-row gap-4 justify-center items-center w-full">
+                <button id="btnYes" class="w-full sm:w-auto px-10 py-4 bg-gradient-to-r from-green-400 to-emerald-500 hover:from-green-500 hover:to-emerald-600 text-white font-bold text-xl rounded-2xl shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 animate-pulse-glow z-20">
+                    Sí ❤️
+                </button>
+                <button id="btnNo" class="w-full sm:w-auto px-10 py-4 bg-white hover:bg-gray-50 text-gray-700 font-bold text-xl rounded-2xl shadow-md border-2 border-gray-100 hover:border-gray-200 transform hover:-translate-y-1 transition-all duration-300 z-20">
+                    No 💔
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Interactive Modal -->
+    <div id="responseModal" class="fixed inset-0 z-50 flex items-center justify-center px-4 bg-gray-900/40 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-500 ease-in-out">
+        <div id="modalContent" class="bg-white rounded-[2rem] shadow-2xl p-8 sm:p-10 max-w-md w-full text-center transform scale-90 translate-y-8 opacity-0 transition-all duration-500 ease-out border border-pink-100 relative overflow-hidden">
+            
+            <!-- Confetti/Decor Background in Modal -->
+            <div class="absolute inset-0 bg-gradient-to-b from-pink-50 to-white pointer-events-none z-0"></div>
+
+            <div class="relative z-10">
+                <!-- Dynamic SVG Icon (Injected via JS) -->
+                <div id="modalIconContainer" class="flex justify-center mb-6 h-28"></div>
+                
+                <!-- Dynamic Text -->
+                <h2 id="modalTitle" class="text-3xl font-heading font-bold mb-4 text-gray-800"></h2>
+                <p id="modalMessage" class="text-xl text-gray-600 font-medium mb-8 leading-relaxed"></p>
+                
+                <!-- Close/Action Button -->
+                <button id="btnCloseModal" class="w-full px-6 py-3 bg-gray-900 hover:bg-gray-800 text-white font-bold rounded-xl transition-colors duration-300">
+                    Cerrar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- Particle System (Floating Hearts) ---
+        const particlesContainer = document.getElementById('particles-container');
+        const heartColors = ['#fecdd3', '#fbcfe8', '#e9d5ff', '#fda4af'];
+
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart-particle');
+            
+            // Randomize properties
+            const size = Math.random() * 20 + 10; // 10px to 30px
+            const left = Math.random() * 100; // 0% to 100%
+            const duration = Math.random() * 5 + 5; // 5s to 10s
+            const delay = Math.random() * 2;
+            const color = heartColors[Math.floor(Math.random() * heartColors.length)];
+
+            // SVG Heart Path
+            heart.innerHTML = `
+                <svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="${color}" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                </svg>
+            `;
+
+            heart.style.left = `${left}%`;
+            heart.style.animationDuration = `${duration}s`;
+            heart.style.animationDelay = `${delay}s`;
+
+            particlesContainer.appendChild(heart);
+
+            // Remove after animation completes to clean up DOM
+            setTimeout(() => {
+                heart.remove();
+            }, (duration + delay) * 1000);
+        }
+
+        // Generate hearts periodically
+        setInterval(createHeart, 400);
+
+        // Initial burst of hearts
+        for(let i = 0; i < 15; i++) {
+            setTimeout(createHeart, Math.random() * 1000);
+        }
+
+        // --- Interaction Logic (Modals) ---
+        const btnYes = document.getElementById('btnYes');
+        const btnNo = document.getElementById('btnNo');
+        const responseModal = document.getElementById('responseModal');
+        const modalContent = document.getElementById('modalContent');
+        const btnCloseModal = document.getElementById('btnCloseModal');
+        
+        const modalIconContainer = document.getElementById('modalIconContainer');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalMessage = document.getElementById('modalMessage');
+
+        // Assets
+        const happyKirbySVG = `
+            <svg viewBox="0 0 200 200" class="w-28 h-28 animate-bounce">
+                <circle cx="100" cy="100" r="75" fill="#ffaec9" />
+                <path d="M 50 160 C 20 160, 20 190, 50 190 C 80 190, 80 160, 50 160 Z" fill="#e82c5a" />
+                <path d="M 150 160 C 120 160, 120 190, 150 190 C 180 190, 180 160, 150 160 Z" fill="#e82c5a" />
+                <path d="M 20 90 C 0 70, 20 50, 45 75 Z" fill="#ffaec9" />
+                <path d="M 180 90 C 200 70, 180 50, 155 75 Z" fill="#ffaec9" />
+                <ellipse cx="60" cy="105" rx="12" ry="7" fill="#ff7da7" opacity="0.7" />
+                <ellipse cx="140" cy="105" rx="12" ry="7" fill="#ff7da7" opacity="0.7" />
+                <path d="M 60 85 Q 70 75 80 85" stroke="#111" stroke-width="4" stroke-linecap="round" fill="transparent"/>
+                <path d="M 120 85 Q 130 75 140 85" stroke="#111" stroke-width="4" stroke-linecap="round" fill="transparent"/>
+                <path d="M 85 110 Q 100 135 115 110 Z" fill="#e82c5a" />
+                <!-- Happy Heart Floating -->
+                <path d="M 160 40 C 150 30, 140 50, 160 60 C 180 50, 170 30, 160 40 Z" fill="#f43f5e" class="animate-pulse" />
+            </svg>
+        `;
+
+        const kissEmojiSVG = `
+            <svg viewBox="0 0 100 100" class="w-28 h-28 animate-[pulse_1s_infinite]">
+                <circle cx="50" cy="50" r="45" fill="#FFD24C" />
+                <path d="M 30 40 Q 40 30 50 40" stroke="#8A4A32" stroke-width="3" stroke-linecap="round" fill="transparent"/>
+                <path d="M 70 45 C 75 40 85 45 80 55 C 75 60 65 55 70 45 Z" fill="#8A4A32" />
+                <circle cx="35" cy="55" r="6" fill="#ff7da7" opacity="0.6"/>
+                <!-- Kissing Mouth -->
+                <path d="M 50 65 Q 40 65 40 70 Q 40 75 50 75 Q 60 75 60 70 Q 60 65 50 65 Z" fill="#8A4A32" />
+                <!-- Flying Heart -->
+                <path d="M 65 35 C 60 30, 55 40, 65 45 C 75 40, 70 30, 65 35 Z" fill="#f43f5e" class="animate-bounce" />
+            </svg>
+        `;
+
+        function openModal(type) {
+            if (type === 'yes') {
+                modalIconContainer.innerHTML = happyKirbySVG;
+                modalTitle.innerHTML = "¡Siiiiii! 🥰";
+                modalTitle.className = "text-3xl font-heading font-bold mb-4 text-emerald-500";
+                modalMessage.innerHTML = "Gracias perdón por lo que paso enserio, te quiero muchisimooo despues te doy bien duro por compensacion ❤️";
+                btnCloseModal.className = "w-full px-6 py-3 bg-emerald-500 hover:bg-emerald-600 text-white font-bold rounded-xl transition-colors duration-300 shadow-lg shadow-emerald-200";
+            } else if (type === 'no') {
+                modalIconContainer.innerHTML = kissEmojiSVG;
+                modalTitle.innerHTML = "¡Uy, así que no!";
+                modalTitle.className = "text-3xl font-heading font-bold mb-4 text-brand-600";
+                modalMessage.innerHTML = "¡Entonces te voy a comer a besos!";
+                btnCloseModal.className = "w-full px-6 py-3 bg-brand-500 hover:bg-brand-600 text-white font-bold rounded-xl transition-colors duration-300 shadow-lg shadow-pink-200";
+            }
+
+            // Show modal
+            responseModal.classList.add('modal-active');
+            // Small delay for the content pop-in animation to trigger correctly
+            setTimeout(() => {
+                modalContent.classList.add('modal-content-active');
+            }, 10);
+        }
+
+        function closeModal() {
+            modalContent.classList.remove('modal-content-active');
+            setTimeout(() => {
+                responseModal.classList.remove('modal-active');
+            }, 300); // Wait for scale down transition
+        }
+
+        // Event Listeners
+        btnYes.addEventListener('click', () => openModal('yes'));
+        btnNo.addEventListener('click', () => openModal('no'));
+        btnCloseModal.addEventListener('click', closeModal);
+
+        // Close on background click
+        responseModal.addEventListener('click', (e) => {
+            if (e.target === responseModal) {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>
